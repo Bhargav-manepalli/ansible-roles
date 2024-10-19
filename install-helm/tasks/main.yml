@@ -1,0 +1,23 @@
+- name: Get the gpg key
+  shell: |
+    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+  become: yes
+- name: Install dep packages
+  apt:
+    name: apt-transport-https
+    state: present
+  become: yes
+- name: Add helm to sources.list.d
+  shell: |
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+  become: true
+- name: Update apt cache
+  apt:
+    update_cache: true
+  become: true
+
+- name: Install helm
+  apt:
+    name: helm
+    state: present
+  become: true

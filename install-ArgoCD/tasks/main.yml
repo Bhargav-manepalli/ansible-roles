@@ -1,0 +1,6 @@
+  - name: Create argocd namespace
+    command: kubectl create namespace argocd
+    ignore_errors: true
+  - name: Install ArgoCD manifests
+    command: kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    ignore_errors: true

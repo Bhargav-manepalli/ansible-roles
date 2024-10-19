@@ -1,0 +1,5 @@
+---
+# handlers file for kubeadm-setup
+- name: Pause for 10 secs
+  pause:
+    seconds: 10

@@ -1,0 +1,14 @@
+
+- name: Download istio-folder
+  shell: |
+    curl -L https://istio.io/downloadIstio | sh - && cd istio-1.23.2
+- name: export binary path
+  command:  mv istio-1.23.2/bin/istioctl /usr/bin/
+  become: true
+- name: Install Istio
+  shell: |
+    istioctl install --set profile=ambient --skip-confirmation
+- name: Install gateway api CRD's
+  shell: |
+    kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+     {kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml;}  
